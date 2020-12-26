@@ -1,0 +1,15 @@
+{
+  "name": "hardware-scraper",
+  "version": "1.0.0",
+  "description": "REST API for retrieving product information from multiple PC hardware stores",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Guilherme F. de Freitas",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "express": "^4.17.1"
+  }
+}
