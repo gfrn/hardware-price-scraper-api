@@ -4,7 +4,7 @@
   "description": "REST API for retrieving product information from multiple PC hardware stores",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index"
   },
   "author": "Guilherme F. de Freitas",
   "license": "ISC",
