@@ -4,24 +4,15 @@ const router = express.Router();
 const url = require('url');
 const fs = require('fs');
 
-let expressions;
-
-fs.readFile('./config/regex.json', 'utf-8', (error, data) => {
-  if (error) {
-    console.log(error);
-    process.exit(1);
-  } else {
-    expressions = JSON.parse(data);
-  }
-});
+const expressions = require('../config/regex.json');
 
 var getUrl = function (store, query, page = 1) {
   var lPrice = true;
   var storeUrl = {
     "kabum": `https://www.kabum.com.br/cgi-local/site/listagem/listagem.cgi?string=${query}&btnG=&pagina=1&ordem=${lPrice ? "3" : "5"}&limite=2000`,
     "pichau": `https://www.pichau.com.br/catalogsearch/result/index/?p=${page}&q=${query}${lPrice ? "&product_list_order=price" : ""}&product_list_limit=48`,
-    "cissa": `https://www.cissamagazine.com.br/busca?q=${lPrice ? query + "&ordem=menorpreco" : query}&p=${page}`,
-    "pcxpress": `https://www.pcxpress.com.br/page/${page}/?${lPrice ? "orderby=price&" : ""}s=${query}&post_type=product`
+    "cissa": `https://www.cissamagazine.com.br/busca?q=${lPrice ? query + "&ordem=menorpreco" : query}&p=${page}`
+    //"pcxpress": `https://www.pcxpress.com.br/page/${page}/?${lPrice ? "orderby=price&" : ""}s=${query}&post_type=product`
   };
 
   return storeUrl[store];
