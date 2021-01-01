@@ -4,12 +4,18 @@
   "description": "REST API for retrieving product information from multiple PC hardware stores",
   "main": "index.js",
   "scripts": {
-    "start": "node index"
+    "start": "node index",
+    "test": "mocha --timeout 20000"
   },
   "author": "Guilherme F. de Freitas",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
     "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^8.2.1"
   }
 }
