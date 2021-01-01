@@ -6,7 +6,7 @@ API for returning product details from multiple Brazilian hardware stores
 
 Send a get request to `https://hardware-scraper-api.herokuapp.com/get` with valid store and query parameters.
 
-Example: https://hardware-scraper-api.herokuapp.com/get?kabum&query=ryzen.
+Example: https://hardware-scraper-api.herokuapp.com/get?store=kabum&query=ryzen.
 
 Available stores:
 - Cissa (cissa)
