@@ -7,8 +7,8 @@ const stores = require('../config/regex.json');
 
 chai.use(chaiHttp);
 
-describe('/GET kabum', () => {
-    it('should GET all results for a product search in Kabum', async () => {
+describe('/GET stores', () => {
+    it('should GET all results for a product search in all stores', async () => {
         for(let store in stores) {
             let res = await chai.request(server)
             .get(`/get?store=${store}&query=monitor`)
@@ -20,5 +20,16 @@ describe('/GET kabum', () => {
             res.body[0].should.have.property('img').which.is.a.String;
             res.body[0].should.have.property('url').which.is.a.String;
         }
+    });
+});
+
+describe('/GET invalid store', () => {
+    it('should handle GET request for invalid store', (done) => {
+            chai.request(server)
+            .get(`/get?store=invalidstore&query=invaliditem`)
+            .end((err, res) => {
+            res.should.have.status(406);
+            done();
+            });
     });
 });

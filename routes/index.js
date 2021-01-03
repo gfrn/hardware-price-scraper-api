@@ -70,6 +70,10 @@ var getProducts = function (store, query) {
 router.get('/get', async (req, res) => {
   try {
     const options = url.parse(req.url, true).query;
+    if(!Object.keys(expressions).includes(options.store)) {
+      res.status(406).json('Invalid store name');
+    }
+
     const products = await getProducts(options.store, options.query);
 
     if(products.length > 0) {
