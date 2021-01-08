@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index",
-    "test": "mocha --timeout 20000"
+    "test": "mocha --timeout 50000"
   },
   "author": "Guilherme F. de Freitas",
   "license": "ISC",

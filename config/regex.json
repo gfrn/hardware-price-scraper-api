@@ -17,5 +17,14 @@
         "pages":"\\d*(?=\">Próxima)"
     },
     "kabum": {
+    },
+    "pcxpress": {
+        "content":"(?<=shop-products-inner).*?(?=class=\"page-)",
+        "toRemove":"(?<=<div class=\"product-price-button\">|<div class=\"product-wrapper listview\">).*?(?=<!-- ADD TO)",
+        "urls":"(?<=<div class=\"product-name\">[^\\\\s][^\\\\t]+<a href=\").*?(?=\")",
+        "images":"(?<=height=\".{3}\" src=\").*?(?=\")",
+        "prices":"(?<=!important;\"><span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;&#36;<\/span>).*?(?=<)",
+        "names":"(?<=\"tituloloja\">).*?(?=<)",
+        "pages":"(?<=next page-numbers\" href=\"https://www.pcxpress.com.br\/page\/).*?(?=\/)"
     }
 }

@@ -28,8 +28,8 @@ describe('/GET invalid store', () => {
             chai.request(server)
             .get(`/get?store=invalidstore&query=invaliditem`)
             .end((err, res) => {
-            res.should.have.status(400);
-            done();
+                res.should.have.status(400);
+                done();
             });
     });
 });
@@ -39,7 +39,7 @@ describe('/GET invalid params', () => {
             chai.request(server)
             .get(`/get?invalidparam2=invalid&invalidparam1=invaliditem`)
             .end((err, res) => {
-            res.should.have.status(400);
+                res.should.have.status(400);
             done();
             });
     });
