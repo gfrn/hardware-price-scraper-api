@@ -2,7 +2,6 @@ const express = require('express');
 const axios = require('axios');
 const router = express.Router();
 const url = require('url');
-const fs = require('fs');
 
 const expressions = require('../config/regex.json');
 
@@ -21,9 +20,10 @@ var getUrl = function (store, query, page = 1) {
 var getProducts = function (store, query) {
   return new Promise(async function (resolve, reject) {
     let parsedProducts = [];
+    
     if (store == "kabum") {
-      let response = await axios(getUrl(store, query));
-      let products = JSON.parse(response.data.match(/(?<=listagemDados = ).*?(?=const listagem)/s));
+      let response = await getPage(getUrl(store, query));
+      let products = JSON.parse(response.match(/(?<=listagemDados = ).*?(?=const listagem)/s));
 
       products.map(function (item) {
         parsedProducts.push({
@@ -37,8 +37,8 @@ var getProducts = function (store, query) {
       let i = 1;
       while (i) {
         try {
-          let response = await axios(getUrl(store, query, i)); 
-          html = response.data.match(new RegExp(expressions[store].content, "sg"))[0]; 
+          let response = await axios(getUrl(store, query, i));
+          html = response.data.match(new RegExp(expressions[store].content, "sg"))[0];
         }
         catch { break; }
 
@@ -46,7 +46,7 @@ var getProducts = function (store, query) {
           html = html.replace(new RegExp(expressions[store].toRemove, "sg"), "")
         }
 
-        var prices = html.match(new RegExp(expressions[store].prices, "sg")); 
+        var prices = html.match(new RegExp(expressions[store].prices, "sg"));
 
         if (prices == null) { break; }
 
@@ -54,12 +54,12 @@ var getProducts = function (store, query) {
         var names = html.match(new RegExp(expressions[store].names, "sg"));
         var images = html.match(new RegExp(expressions[store].images, "sg"));
 
-        for(let j = 0; j < prices.length; j++) {
+        for (let j = 0; j < prices.length; j++) {
           parsedProducts.push({
             "url": urls[j],
             "img": images[j],
             "name": names[j],
-            "price": parseFloat(prices[j].replace('.','').replace(',','.'))
+            "price": parseFloat(prices[j].replace('.', '').replace(',', '.'))
           });
         }
         i++;
@@ -74,13 +74,13 @@ router.get('/get', async (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
 
     const options = url.parse(req.url, true).query;
-    if(!Object.keys(expressions).includes(options.store)) {
+    if (!Object.keys(expressions).includes(options.store)) {
       res.status(400);
       res.end('Invalid store/query parameters');
     } else {
       const products = await getProducts(options.store, options.query);
 
-      if(products.length > 0) {
+      if (products.length > 0) {
         res.json(products);
       } else {
         res.json('No products found');
@@ -92,5 +92,15 @@ router.get('/get', async (req, res) => {
     res.end('Server error');
   }
 });
+
+async function getPage(url) {
+  let response = await axios({
+    method: 'GET',
+    url: url, 
+    responseType: 'arraybuffer'
+  });
+
+  return response.data.toString('latin1');
+}
 
 module.exports = router;
