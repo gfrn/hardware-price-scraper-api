@@ -59,7 +59,7 @@ var getProducts = function (store, query) {
             "url": urls[j],
             "img": images[j],
             "name": names[j],
-            "price": parseFloat(prices[j].replace(',','.').replace(' ',''))
+            "price": parseFloat(prices[j].replace('.','').replace(',','.'))
           });
         }
         i++;
@@ -72,7 +72,7 @@ var getProducts = function (store, query) {
 router.get('/get', async (req, res) => {
   try {
     res.header("Access-Control-Allow-Origin", "*");
-    
+
     const options = url.parse(req.url, true).query;
     if(!Object.keys(expressions).includes(options.store)) {
       res.status(400);
