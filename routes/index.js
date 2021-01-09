@@ -71,6 +71,8 @@ var getProducts = function (store, query) {
 
 router.get('/get', async (req, res) => {
   try {
+    res.header("Access-Control-Allow-Origin", "*");
+    
     const options = url.parse(req.url, true).query;
     if(!Object.keys(expressions).includes(options.store)) {
       res.status(400);
