@@ -1,11 +1,11 @@
 {
   "name": "hardware-scraper",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "REST API for retrieving product information from multiple PC hardware stores",
   "main": "index.js",
   "scripts": {
     "start": "node index",
-    "test": "mocha --timeout 70000"
+    "test": "mocha --timeout 30000 --exit"
   },
   "author": "Guilherme F. de Freitas",
   "license": "ISC",
