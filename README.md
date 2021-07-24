@@ -1,4 +1,6 @@
 # hardware-price-scraper-api
+[![Node.js CI](https://github.com/ntanck/hardware-price-scraper-api/actions/workflows/node.js.yml/badge.svg)](https://github.com/ntanck/hardware-price-scraper-api/actions/workflows/node.js.yml)
+
 API for returning product details from multiple Brazilian hardware stores
 
 
