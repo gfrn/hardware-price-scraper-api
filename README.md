@@ -9,10 +9,11 @@ Send a get request to `https://hardware-scraper-api.herokuapp.com/get` with vali
 Example: https://hardware-scraper-api.herokuapp.com/get?store=kabum&query=ryzen.
 
 Available stores:
-- Cissa (cissa)
 - PCXpress (pcxpress)
 - Kabum (kabum)
 - Pichau (pichau)
+
+*Note:* Cissa was removed since they closed down permanently.
 
 ## Example response
 ```

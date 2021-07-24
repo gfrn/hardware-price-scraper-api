@@ -1,20 +1,5 @@
 {
     "pichau": {
-        "content":"(?<=products list items product-items).*?(?=Atendimento <strong>Por e-mail)",
-        "toRemove":"(?<=<span class=\"old-price\">).*?(?=<\/script>)",
-        "urls":"(?<=\"product-item-link\" href=\").*?(?=\")",
-        "images":"(?<=photo\" src=\").*?(?=\")",
-        "prices":"(?<=<span>à vista R\\$).*?(?=<)",
-        "names":"(?<= height=\"\" alt=\").*?(?=\")",
-        "pages": "(?<=action  next\" href=\"https:\/\/www\\.pichau\\.com\\.br\/catalogsearch\/result\/index\/\\?p=).*?(?=&)"
-    },
-    "cissa": {
-        "content":"(?<=lista-produtos-area\">).*?(?=<\/a><\/li><li class=\"nav\"><a title=\"Ir para a próxima página)",
-        "urls":"(?<=<a href=\"\/\/).*?(?=\" class=)",
-        "images":"(?<=class=\"lazyload\" data-src=\").*?(?=\")",
-        "prices":"(?<=R\\$ <span>).*?(?=<)",
-        "names":"(?<=product-name\">\\s*.{28}).*?(?=[ \r\n\\s]*<)",
-        "pages":"\\d*(?=\">Próxima)"
     },
     "kabum": {
     },

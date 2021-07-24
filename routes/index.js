@@ -4,13 +4,13 @@ const router = express.Router();
 const url = require('url');
 
 const expressions = require('../config/regex.json');
+const { parse } = require('path');
 
 var getUrl = function (store, query, page = 1) {
   var lPrice = true;
   var storeUrl = {
     "kabum": `https://www.kabum.com.br/cgi-local/site/listagem/listagem.cgi?string=${query}&btnG=&pagina=1&ordem=${lPrice ? "3" : "5"}&limite=2000`,
-    "pichau": `https://www.pichau.com.br/catalogsearch/result/index/?p=${page}&q=${query}${lPrice ? "&product_list_order=price" : ""}&product_list_limit=48`,
-    "cissa": `https://www.cissamagazine.com.br/busca?q=${lPrice ? query + "&ordem=menorpreco" : query}&p=${page}`,
+    "pichau": `https://www.pichau.com.br/search?q=${query}&page=${page}&q=${query}${lPrice ? "&sort=price-asc" : ""}`,
     "pcxpress": `https://www.pcxpress.com.br/page/${page}/?${lPrice ? "orderby=price&" : ""}s=${query}&post_type=product`
   };
 
@@ -33,6 +33,26 @@ var getProducts = function (store, query) {
           "price": item.preco_desconto
         });
       });
+    } else if (store=="pichau") {
+      let response = await getPage(getUrl(store, query, page=1));
+      let code = String(response.match(/\"items\":.*"banners/s))
+      let products = JSON.parse("{" + code.substring(0,code.length-9));
+      const promises = [];
+
+      products.items.map(function (item) {
+        parsedProducts.push({
+          "url": `https://www.pichau.com.br/${item.url_key}`,
+          "img": item.image.url,
+          "name": item.name,
+          "price": item.special_price
+        });
+      });
+
+      for(let i = 2; i <= products.page_info.total_pages; i++) {
+        promises.push(getAndParsePage(getUrl(store, query, page=i)));
+      }
+
+      parsedProducts = [].concat.apply(parsedProducts, await Promise.all(promises));
     } else {
       let i = 1;
       while (i) {
@@ -100,7 +120,33 @@ async function getPage(url) {
     responseType: 'arraybuffer'
   });
 
-  return response.data.toString('latin1');
+  return(response.data.toString('latin1'));
+}
+
+async function getAndParsePage(url) {
+  let parsedProducts = [];
+
+  return new Promise(async resolve =>{
+      let response = await axios({
+        method: 'GET',
+        url: url, 
+        responseType: 'arraybuffer'
+    });
+    
+    let code = String(response.data.toString('latin1').match(/\"items\":.*"banners/s));
+    let products = JSON.parse("{" + code.substring(0,code.length-9));
+
+    products.items.map(function (item) {
+      parsedProducts.push({
+        "url": `https://www.pichau.com.br/${item.url_key}`,
+        "img": item.image.url,
+        "name": item.name,
+        "price": item.special_price
+      });
+    });
+
+    resolve(parsedProducts);
+  });
 }
 
 module.exports = router;

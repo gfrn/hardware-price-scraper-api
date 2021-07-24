@@ -10,8 +10,9 @@ chai.use(chaiHttp);
 describe('/GET stores', () => {
     it('should GET all results for a product search in all stores', async () => {
         for(let store in stores) {
+            console.log(store);
             let res = await chai.request(server)
-            .get(`/get?store=${store}&query=monitor`)
+            .get(`/get?store=${store}&query=ryzen`)
             .send();
             res.should.have.status(200);
             res.body.should.be.a('array');
